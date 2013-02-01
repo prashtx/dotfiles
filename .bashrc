@@ -40,11 +40,16 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+function parse_git_branch { 
+   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/\* \(.*\)/\1/' 
+} 
+
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    PS1='\u@MacBook:\w\$ '
+    #PS1='\u@MacBook:\w\$ '
+    PS1="\$(parse_git_branch)\w\$ "
 fi
 unset color_prompt force_color_prompt
 
@@ -55,7 +60,8 @@ case "$TERM" in
 xterm*|rxvt*)
     #PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     #PS1="\[\e]0;\u@MacBook: \w\a\]$PS1"
-    PS1="\[\e]0;\u@MacBook: \a\]$PS1"
+    #PS1="\[\e]0;\u@MacBook: \a\]$PS1"
+    PS1="\[\e[32;0m\]\$(parse_git_branch)\w\$ \[\e[0m\]"
     ;;
 *)
     ;;
