@@ -149,3 +149,4 @@ export PROJECT_HOME=$HOME/dev
 # call its commands from the command line easily
 source /usr/local/bin/virtualenvwrapper.sh
 
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
