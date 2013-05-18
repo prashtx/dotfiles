@@ -1,0 +1,19 @@
+#!/usr/local/bin/node
+
+var orig = '';
+
+process.stdin.on('data', function (data) {
+  orig += data.toString();
+});
+
+process.stdin.on('close', function () {
+  try {
+    var pretty = JSON.stringify(JSON.parse(orig), null, 2);
+    process.stdout.write(pretty);
+    process.stdout.write('\n');
+  } catch (e) {
+    console.error('Error parsing JSON: ' + e.message);
+  }
+});
+
+process.stdin.resume();
