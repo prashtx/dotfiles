@@ -4,7 +4,7 @@ export EC2_HOME=~/local/ec2
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
 PATH=$PATH:$EC2_HOME/bin
 
-PATH=~/bin:/usr/local/bin:$PATH
+PATH=~/bin:/usr/local/bin:/usr/local/share/npm/bin:$PATH
 export PATH
 
 # append to the history file, don't overwrite it
