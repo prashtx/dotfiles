@@ -34,6 +34,7 @@ if &syntax != 'vim'
 endif
 set tabstop=2
 set viminfo='20,\"50
+set nofoldenable
 if has("gui_running")
   set gfn=Menlo\ Regular:h11
 	set lsp=3
