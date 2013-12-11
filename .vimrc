@@ -1,3 +1,5 @@
+runtime flavors/bootstrap.vim
+
 set nocompatible
 filetype off " required by Vundle
 
