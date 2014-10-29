@@ -1,2 +1,2 @@
 #!/bin/sh
-curl -L --compressed $1
+curl -L -s -S --fail --compressed $1
