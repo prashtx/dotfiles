@@ -4,8 +4,12 @@ export EC2_HOME=~/local/ec2
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
 PATH=$PATH:$EC2_HOME/bin
 
-PATH=~/bin:/usr/local/bin:/usr/local/share/npm/bin:$PATH
+PATH=~/bin:/usr/local/share/npm/bin:/usr/local/bin:$PATH
 export PATH
+
+DYLD_LIBRARY_PATH=/usr/local/Cellar/libxml2/2.9.1/lib:~/local/FileGDB_API/lib:$DYLD_LIBRARY_PATH
+
+export DYLD_LIBRARY_PATH
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -22,6 +26,7 @@ shopt -s checkwinsize
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
+    xterm-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -44,8 +49,21 @@ function parse_git_branch {
    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/\* \(.*\)/\1/' 
 } 
 
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    #PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    #PS1="\[\e]0;\u@MacBook: \w\a\]$PS1"
+    #PS1="\[\e]0;\u@MacBook: \a\]$PS1"
+    PS1="\[\e[0m\]\$(parse_git_branch)\w\$ \[\e[0m\]"
+    ;;
+*)
+    ;;
+esac
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1="\$(parse_git_branch)\[\e[34m\]\w\[\e[0m\]$ "
 else
     #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     #PS1='\u@MacBook:\w\$ '
@@ -54,18 +72,6 @@ fi
 unset color_prompt force_color_prompt
 
 
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    #PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    #PS1="\[\e]0;\u@MacBook: \w\a\]$PS1"
-    #PS1="\[\e]0;\u@MacBook: \a\]$PS1"
-    PS1="\[\e[32;0m\]\$(parse_git_branch)\w\$ \[\e[0m\]"
-    ;;
-*)
-    ;;
-esac
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -108,6 +114,10 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
+if [ -n "$ITERM_SESSION_ID" ]; then
+  export HISTFILE=~/.bash_history_${ITERM_SESSION_ID}
+fi
+
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
@@ -147,6 +157,9 @@ export PROJECT_HOME=$HOME/dev
 #
 # load up all the virtualenvwrapper goodness so you can
 # call its commands from the command line easily
-source /usr/local/bin/virtualenvwrapper.sh
+#source /usr/local/bin/virtualenvwrapper.sh
 
 export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
