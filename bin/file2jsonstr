@@ -1,0 +1,1 @@
+gsed -e ':a;{N;s/\n/\\n/;ba}' | gsed -e 's/\t/ /g;s/"/\\"/g'

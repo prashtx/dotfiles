@@ -1,0 +1,4 @@
+#!/usr/bin/env NODE_PATH=/usr/local/share/npm/lib/node_modules /usr/local/bin/node
+'use strict'
+var cuid = require('cuid');
+console.log(cuid());

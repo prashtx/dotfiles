@@ -1,0 +1,2 @@
+#!/bin/sh
+open "http://log2viz.herokuapp.com/app/$1"
