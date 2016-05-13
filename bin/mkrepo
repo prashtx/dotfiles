@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -L -n -X POST -H "Accept: application/vnd.github.v3+json" --data-raw "{\"private\":true, \"name\":\"${1}\"}" https://api.github.com/user/repos
