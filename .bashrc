@@ -27,6 +27,7 @@ shopt -s checkwinsize
 case "$TERM" in
     xterm-color) color_prompt=yes;;
     xterm-256color) color_prompt=yes;;
+    screen-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -113,6 +114,9 @@ esac
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+if [ -f /usr/local/etc/bash_completion ]; then
+. /usr/local/etc/bash_completion
+fi
 
 if [ -n "$ITERM_SESSION_ID" ]; then
   export HISTFILE=~/.bash_history_${ITERM_SESSION_ID}
@@ -163,3 +167,13 @@ export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+export NVM_DIR="/Users/prashant.singh/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export EDITOR=nvim
+
+export PATH="/usr/local/share/dotnet:$PATH"
+
+# OPAM configuration
+[ -s "$HOME/.opam/opam-init/init.sh" ] && . "$HOME/.opam/opam-init/init.sh" > /dev/null 2> /dev/null || true
