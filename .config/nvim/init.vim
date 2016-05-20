@@ -4,12 +4,22 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/syntastic'
 "Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'lukerandall/haskellmode-vim'
 Plug 'fholgado/minibufexpl.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'chrisbra/csv.vim'
 Plug 'tpope/vim-commentary'
+Plug 'airblade/vim-gitgutter'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'rking/ag.vim'
+Plug 'kortina/crosshair-focus.vim'
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
 
 call plug#end()
 
@@ -19,13 +29,19 @@ au Bufenter *.hs compiler ghc
 " configure browser for haskell_doc.vim
 let g:haddock_browser = "open"
 let g:haddock_browser_callformat = "%s %s"
-:let g:haddock_docdir = "/usr/local/share/doc/ghc/html/"
+let g:haddock_docdir = "/usr/local/share/doc/ghc/html/"
 
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline_powerline_fonts = 1
 let g:miniBufExplAutoStart = 0
+let g:airline#extensions#hunks#enabled = 1
+
+let g:ctrlp_cmd = 'CtrlPMixed'
+
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_args = '--ext .js,.jsx'
 
 set nu
 highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
@@ -33,10 +49,7 @@ highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE gui
 let g:csv_no_column_highlight = 1
 
 set nocompatible
-filetype off " required by Vundle
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
 
 "" " let Vundle manage Vundle
 "" " required by Vundle
@@ -53,9 +66,9 @@ set autoindent
 set background=dark
 set backspace=2
 set expandtab
-if &filetype != 'vim'
-  set filetype=vim
-endif
+"if &filetype != 'vim'
+"  set filetype=vim
+"endif
 set history=50
 set hlsearch
 set laststatus=2
@@ -64,9 +77,9 @@ set ruler
 set shiftwidth=2
 set showmatch
 " set smartindent
-if &syntax != 'vim'
-  set syntax=vim
-endif
+"if &syntax != 'vim'
+"  set syntax=vim
+"endif
 set tabstop=2
 set viminfo='20,\"50
 if exists('g:nyaovim_version')
@@ -112,6 +125,8 @@ elseif has("gui_running")
   map <C-H> <C-W>h
   map <C-L> <C-W>l
 else
+  colorscheme solarized
+  set bg=dark
   " Movement between windows
   " map <C-J> <C-W>j
   " map <C-K> <C-W>k
@@ -123,9 +138,12 @@ else
   "map <C-J> <C-PageUp>
   "map <C-K> <C-PageDown>
   " Movement between buffers
-  map <C-J> :MBEbp<Enter>
-  map <C-K> :MBEbn<Enter>
+  map <C-j> :bN<Enter>
+  map <C-k> :bn<Enter>
+  "map <LocalLeader>f :MBEbf<Enter>
+  "map <LocalLeader>b :MBEbb<Enter>
   set hidden
+  cabbrev bd MBEbd
   " These interfere with Tagbar
   "map <C-H> <C-PageUp>
   "map <C-L> <C-PageDown>
@@ -171,4 +189,9 @@ endfunction
 " Tagbar
 nmap <silent> <F9> :TagbarToggle<CR>
 
+" crosshairs
+set cursorline
+set cursorcolumn
 
+" width marker
+set cc=80,100
