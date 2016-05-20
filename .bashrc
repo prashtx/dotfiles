@@ -46,9 +46,6 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-function parse_git_branch { 
-   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/\* \(.*\)/\1/' 
-} 
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -64,15 +61,18 @@ esac
 
 if [ "$color_prompt" = yes ]; then
     #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1="\$(parse_git_branch)\[\e[34m\]\w\[\e[0m\]$ "
+    PS1="\[\e[34m\]\w\[\e[0m\]\$(parse_git_branch)$ "
 else
+    PS1="\[\e[0m\]\w\[\e[0m\]\$(parse_git_branch)$ "
     #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     #PS1='\u@MacBook:\w\$ '
-    PS1="\$(parse_git_branch)\w\$ "
 fi
 unset color_prompt force_color_prompt
 
-
+function parse_git_branch {
+#git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/\* \(.*\)/(\1)/'
+git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/\* \(.*\)/\1/'
+}
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like

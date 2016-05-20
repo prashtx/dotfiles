@@ -15,10 +15,14 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'rking/ag.vim'
-Plug 'kortina/crosshair-focus.vim'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'wting/rust.vim'
+Plug 'fsharp/vim-fsharp', {
+      \ 'for': 'fsharp',
+      \ 'do':  'make fsautocomplete',
+      \}
 
 
 call plug#end()
