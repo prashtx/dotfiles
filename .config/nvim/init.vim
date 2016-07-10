@@ -3,11 +3,12 @@ call plug#begin('~/.config/nvim/plugged')
 "Plug 'bitc/vim-hdevtools'
 Plug 'scrooloose/syntastic'
 "Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
+"Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'lukerandall/haskellmode-vim'
-Plug 'fholgado/minibufexpl.vim'
+"Plug 'fholgado/minibufexpl.vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'chrisbra/csv.vim'
 Plug 'tpope/vim-commentary'
@@ -15,7 +16,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'rking/ag.vim'
-Plug 'jeetsukumaran/vim-buffergator'
+"Plug 'jeetsukumaran/vim-buffergator'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'wting/rust.vim'
@@ -23,7 +24,25 @@ Plug 'fsharp/vim-fsharp', {
       \ 'for': 'fsharp',
       \ 'do':  'make fsautocomplete',
       \}
-
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" {{{
+  let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+  " fzf using ag to respect ignored files
+  "command! FZFig call fzf#run({ 'source': 'ag -g "" .', 'sink': 'e', 'options': '-m', 'up': '~35%'})
+  "command! FZFig call fzf#run({ 'source': 'ag -g "" .', 'sink': 'e', 'options': '-m', 'down': '~40%'})
+  command! FZFig call fzf#vim#ag_raw('-g ""', { 'options': ' --prompt '.shellescape(pathshorten(getcwd())).'/'})
+  nnoremap <silent> <leader><space> :FZFig<CR>
+  nnoremap <silent> <leader>b :Buffers<CR>
+  nnoremap <silent> <C-T> :Files<CR>
+" }}}
+Plug 'prashtx/vim-markdown', { 'branch': 'tweaks' }
+" {{{
+  hi def link markdownCode String
+  "set conceallevel=1
+" }}}
+Plug 'tpope/vim-vinegar'
+Plug 'kortina/crosshair-focus.vim'
 
 call plug#end()
 
@@ -41,6 +60,15 @@ let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline_powerline_fonts = 1
 let g:miniBufExplAutoStart = 0
 let g:airline#extensions#hunks#enabled = 1
+let g:airline_mode_map = { 'n': 'N' }
+let g:airline#extensions#default#section_truncate_width = {
+    \ 'b': 79,
+    \ 'x': 88,
+    \ 'y': 110,
+    \ 'z': 45,
+    \ 'warning': 80,
+    \ 'error': 80,
+    \ }
 
 let g:ctrlp_cmd = 'CtrlPMixed'
 
@@ -86,6 +114,10 @@ set showmatch
 "endif
 set tabstop=2
 set viminfo='20,\"50
+
+
+
+
 if exists('g:nyaovim_version')
   "set gfn=Menlo\ Regular:h11
   "set lsp=3
@@ -147,7 +179,7 @@ else
   "map <LocalLeader>f :MBEbf<Enter>
   "map <LocalLeader>b :MBEbb<Enter>
   set hidden
-  cabbrev bd MBEbd
+  "cabbrev bd MBEbd
   " These interfere with Tagbar
   "map <C-H> <C-PageUp>
   "map <C-L> <C-PageDown>
