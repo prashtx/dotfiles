@@ -79,7 +79,6 @@ commands.builtins = commands.extend({
 }, get_app_switch_commands())
 
 function commands.setup(config)
-  print(hs.inspect.inspect(config.handlers))
   return {
     choices = config.choices,
     handler = function (choice)

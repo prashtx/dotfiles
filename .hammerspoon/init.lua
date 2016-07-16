@@ -32,6 +32,26 @@ local custom_commands = commands.setup(commands.extend(commands.builtins, {
     fn = function ()
       chrome.open_tab('https://github.com/pulls')
     end
+  },
+  {
+    uuid = uuid(),
+    text = 'Pulse',
+    subText = 'Reddit pulse vis',
+    fn = function ()
+      chrome.open_tab(private.pulse)
+    end
+  },
+  {
+    uuid = uuid(),
+    text = 'Mail',
+    subText = private.mail,
+    fn = function() chrome.activate_tab_title(private.mail) end
+  },
+  {
+    uuid = uuid(),
+    text = 'Calendar',
+    subText = private.calendar,
+    fn = function() chrome.activate_tab_title(private.calendar) end
   }
 }))
 

@@ -25,20 +25,46 @@ function chrome.get_tabs()
 end
 
 function chrome.activate_tab(win, id)
-  local success, data, desc = hs.osascript.javascript([[
-    var chrome = Application('Google Chrome');
-    var window = chrome.windows.byId(]] .. win .. [[)
-    var hit = window.tabs().reduce(function (memo, tab, i) {
-      if (memo !== -1) { return memo; }
-      if (tab.id() === ]] .. id .. [[) { return i; }
-      return memo;
-    }, -1);
-    if (hit > -1) {
-      window.visible = true;
-      window.activeTabIndex = hit;
-    }
+  local success, data, desc = hs.osascript.applescript([[
+    tell application "Google Chrome"
+      set w to window id ]] .. win .. [[
+
+      tell w
+        set i to 0
+        repeat with t in tabs
+          set i to i + 1
+          if id of t is equal to ]] .. id .. [[ then
+            activate w
+            set active tab index of w to i
+          end if
+        end repeat
+      end tell
+    end tell
   ]])
-  util.show_application('Google Chrome')
+end
+
+function chrome.activate_tab_title(str)
+  print(hs.inspect.inspect(str))
+  local success, data, desc = hs.osascript.applescript([[
+    tell application "Google Chrome"
+      set i to 0
+      repeat with w in windows
+        set i to i + 1
+        set j to 0
+        repeat with t in tabs of w
+          set j to j + 1
+          if title of t contains "]] .. str .. [[" then
+            tell application "System Events"
+              tell process "Google Chrome" to perform action "AXRaise" of window i
+            end tell
+            tell w to set active tab index to j
+            activate w
+            return
+          end if
+        end repeat
+      end repeat
+    end tell
+  ]])
 end
 
 
