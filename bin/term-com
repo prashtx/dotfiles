@@ -1,0 +1,46 @@
+#!/bin/bash
+
+USER_TOKEN=$(sed 'N;s/\n/ /;N;s/\n/ /' ${HOME}/.netrc | awk '/www\.terminal\.com/ { printf $4 }')
+ACCESS_TOKEN=$(sed 'N;s/\n/ /;N;s/\n/ /' ${HOME}/.netrc | awk '/www\.terminal\.com/ { printf $6 }')
+
+case $1 in
+  list)
+    curl --silent --compressed -X POST -L -H 'Content-Type: application/json' \
+      -H "user-token: ${USER_TOKEN}" \
+      -H "access-token: ${ACCESS_TOKEN}" \
+      'https://www.terminal.com/api/v0.2/list_terminals' | \
+      jq -r '.terminals[] | "\(.subdomain) \(.status) \(.name) \(.instance_type)"'
+    ;;
+  resume)
+    TERM_ID=$(curl --silent --compressed -X POST -L -H 'Content-Type: application/json' \
+      -H "user-token: ${USER_TOKEN}" \
+      -H "access-token: ${ACCESS_TOKEN}" \
+      'https://www.terminal.com/api/v0.2/list_terminals' | \
+      jq -r '.terminals | map(select(.subdomain == $termid)) | .[0].container_key' --arg termid $2)
+    echo "Resuming $2 (${TERM_ID})"
+    curl --silent --compressed -X POST -L -H 'Content-Type: application/json' \
+      -H "user-token: ${USER_TOKEN}" \
+      -H "access-token: ${ACCESS_TOKEN}" \
+      -d "$(jq -n -r '{container_key: $key}' --arg key ${TERM_ID})" \
+      'https://www.terminal.com/api/v0.2/resume_terminal' | \
+      jq -r '.'
+    ;;
+  pause)
+    TERM_ID=$(curl --silent --compressed -X POST -L -H 'Content-Type: application/json' \
+      -H "user-token: ${USER_TOKEN}" \
+      -H "access-token: ${ACCESS_TOKEN}" \
+      'https://www.terminal.com/api/v0.2/list_terminals' | \
+      jq -r '.terminals | map(select(.subdomain == $termid)) | .[0].container_key' --arg termid $2)
+    echo "Pausing $2 (${TERM_ID})"
+    curl --silent --compressed -X POST -L -H 'Content-Type: application/json' \
+      -H "user-token: ${USER_TOKEN}" \
+      -H "access-token: ${ACCESS_TOKEN}" \
+      -d "$(jq -n -r '{container_key: $key}' --arg key ${TERM_ID})" \
+      'https://www.terminal.com/api/v0.2/pause_terminal' | \
+      jq -r '.'
+    ;;
+  *)
+    echo "Usage: $NAME {list|resume HOSTNAME|pause HOSTNAME}"
+    exit 3
+    ;;
+esac
