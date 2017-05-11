@@ -1,0 +1,18 @@
+{
+    "editor.tabSize": 2,
+    "editor.fontSize": 12,
+    "editor.fontFamily": "Fira Mono",
+    "editor.lineHeight": 16,
+    "editor.cursorBlinking": "solid",
+    "editor.renderLineHighlight": "all",
+    "editor.renderWhitespace": "none",
+    "workbench.iconTheme": "vs-seti",
+    "workbench.colorTheme": "Solarized Dark Custom",
+    "[markdown]": {
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": false,
+        "editor.fontFamily": "FiraSans-Light",
+        "editor.fontSize": 14
+    },
+    "markdown-checkbox.typeOfBulletPoint": "-"
+}
